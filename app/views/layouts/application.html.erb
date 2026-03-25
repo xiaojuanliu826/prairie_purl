@@ -25,6 +25,10 @@
         <%= link_to category.name, category_path(category), style: "margin-right: 15px;" %>
       <% end %>
 
+      <!-- 🔥 filter（关键） -->
+      <%= link_to "On Sale", products_path(filter: "on_sale"), style: "margin-right: 15px;" %>
+      <%= link_to "New Arrivals", products_path(filter: "new"), style: "margin-right: 15px;" %>
+
       <%= link_to "About", about_path, style: "margin-right: 15px;" %>
       <%= link_to "Contact", contact_path, style: "margin-right: 15px;" %>
     </nav>

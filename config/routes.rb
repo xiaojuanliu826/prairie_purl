@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
+  get "pages/show"
   get "categories/show"
+  # custom routes for static pages
+  get 'pages/:title', to: 'pages#show', as: 'static_page'
 
   # home page for products
   root "products#index"

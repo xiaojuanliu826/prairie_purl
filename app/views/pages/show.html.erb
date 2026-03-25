@@ -1,0 +1,9 @@
+<%# the @page is initialized in the controller %>
+<h1><%= @page.title %></h1>
+
+<div class="page-content">
+  <%= simple_format(@page.content) %>
+</div>
+
+<hr>
+<%= link_to "Back to Home", root_path %>

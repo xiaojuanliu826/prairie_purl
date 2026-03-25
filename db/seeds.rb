@@ -28,4 +28,12 @@ end
   product.categories << categories.sample(rand(1..2))
 end
 
+Page.find_or_create_by!(title: "About") do |page|
+  page.content = "This is the about page content for Prairie Purl."
+end
+
+Page.find_or_create_by!(title: "Contact") do |page|
+  page.content = "Contact us at contact@prairiepurl.ca"
+end
+
 puts "Seed completed: Created 100 products and assigned categories."

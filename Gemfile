@@ -48,6 +48,18 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+
+  # admin dashboard
+  gem 'activeadmin'
+
+  # authentication
+  gem 'devise'
+
+  # pagination
+  gem 'kaminari'
+
+  # fake data
+  gem 'faker'
 end
 
 group :test do

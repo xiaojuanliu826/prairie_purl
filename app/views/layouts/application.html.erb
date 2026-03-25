@@ -18,6 +18,20 @@
   </head>
 
   <body>
+    <nav class="main-navigation" style="padding: 1rem; border-bottom: 1px solid #ddd; margin-bottom: 2rem;">
+      <%= link_to "Home", root_path, style: "margin-right: 15px;" %>
+
+      <% Category.all.each do |category| %>
+        <%= link_to category.name, category_path(category), style: "margin-right: 15px;" %>
+      <% end %>
+
+      <%= link_to "About", about_path, style: "margin-right: 15px;" %>
+      <%= link_to "Contact", contact_path, style: "margin-right: 15px;" %>
+    </nav>
+
+    <% if flash[:alert] %>
+      <p style="color: red;"><%= flash[:alert] %></p>
+    <% end %>
     <%= yield %>
   </body>
 </html>

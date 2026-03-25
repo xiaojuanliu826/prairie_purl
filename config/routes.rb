@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   get "pages/show"
   get "categories/show"
   # custom routes for static pages
+  get 'about', to: 'pages#show', title: 'About', as: 'about'
+  get 'contact', to: 'pages#show', title: 'Contact', as: 'contact'
   get 'pages/:title', to: 'pages#show', as: 'static_page'
 
   # home page for products

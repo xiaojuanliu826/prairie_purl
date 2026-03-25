@@ -1,4 +1,36 @@
 <h1>Products</h1>
+<h2>Search Products</h2>
+
+<%= form_with url: products_path, method: :get, local: true do %>
+
+  <!-- 🔍 keyword 输入 -->
+  <div>
+    <%= label_tag :keyword, "Keyword" %>
+    <%= text_field_tag :keyword, params[:keyword] %>
+  </div>
+
+  <!-- 📂 category dropdown -->
+  <div>
+    <%= label_tag :category_id, "Category" %>
+    <%= select_tag :category_id,
+        options_from_collection_for_select(
+          @categories,
+          :id,
+          :name,
+          params[:category_id]
+        ),
+        include_blank: "All Categories"
+    %>
+  </div>
+
+  <!-- 搜索按钮 -->
+  <div>
+    <%= submit_tag "Search" %>
+  </div>
+
+<% end %>
+
+<% end %>
 
 <% @products.each do |product| %>
   <div>

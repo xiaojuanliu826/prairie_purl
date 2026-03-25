@@ -1,6 +1,6 @@
 class Product < ApplicationRecord
   # a product can have multiple categories
-  has_many :product_categories
+  has_many :product_categories, dependent: :destroy
 
   # associate with categories through the join table
   has_many :categories, through: :product_categories

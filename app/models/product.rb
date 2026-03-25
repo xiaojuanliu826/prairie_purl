@@ -1,4 +1,6 @@
 class Product < ApplicationRecord
+
+  has_one_attached :image
   # a product can have multiple categories
   has_many :product_categories, dependent: :destroy
 

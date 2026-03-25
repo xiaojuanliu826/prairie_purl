@@ -1,5 +1,10 @@
 <h1><%= @product.name %></h1>
 
+<!-- 显示大图 -->
+<% if @product.image.attached? %>
+  <%= image_tag @product.image, width: 300 %>
+<% end %>
+
 <p><%= @product.description %></p>
 
 <p>Price: $<%= @product.price %></p>

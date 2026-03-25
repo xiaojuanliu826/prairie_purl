@@ -1,10 +1,31 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
-AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+require 'faker'
+
+# 1. clears old data (optional, if you want a clean slate each time)
+# Product.destroy_all
+
+# 2. create an admin user for ActiveAdmin (only in development)
+AdminUser.find_or_create_by!(email: 'admin@example.com') do |admin|
+  admin.password = 'password'
+  admin.password_confirmation = 'password'
+end if Rails.env.development?
+
+# 3. create some categories
+category_names = ["Knitwear", "Earrings", "Necklaces", "Sale"]
+categories = category_names.map do |name|
+  Category.find_or_create_by!(name: name)
+end
+
+# 4. create 100 products with random data and assign categories
+100.times do
+  product = Product.create!(
+    name: Faker::Commerce.product_name,
+    description: Faker::Lorem.paragraph,
+    price: Faker::Commerce.price(range: 10..200),
+    on_sale: [true, false].sample
+  )
+
+  # random assignment of 1 to 2 categories
+  product.categories << categories.sample(rand(1..2))
+end
+
+puts "Seed completed: Created 100 products and assigned categories."

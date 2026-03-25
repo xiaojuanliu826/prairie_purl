@@ -1,0 +1,14 @@
+<h1>Products</h1>
+
+<% @products.each do |product| %>
+  <div>
+    <!-- product name -->
+    <h3><%= link_to product.name, product_path(product) %></h3>
+
+    <!-- price -->
+    <p>$<%= product.price %></p>
+  </div>
+<% end %>
+
+<!-- pagination -->
+<%= paginate @products %>

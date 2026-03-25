@@ -60,6 +60,9 @@ group :development do
 
   # fake data
   gem 'faker'
+
+  # for sass support in ActiveAdmin
+  gem 'sassc-rails'
 end
 
 group :test do

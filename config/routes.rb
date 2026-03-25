@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+
+  # home page for products
+  root "products#index"
+  # product routes: only index and show (no create/update/delete for now)
+  resources :products, only: [:index, :show]
+
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   devise_for :users

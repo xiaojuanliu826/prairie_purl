@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "categories/show"
 
   # home page for products
   root "products#index"

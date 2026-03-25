@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   root "products#index"
   # product routes: only index and show (no create/update/delete for now)
   resources :products, only: [:index, :show]
+  resources :categories, only: [:show]
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)

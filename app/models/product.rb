@@ -10,4 +10,13 @@ class Product < ApplicationRecord
 
   # validate: price must be present
   validates :price, presence: true
+
+  def self.ransackable_attributes(auth_object = nil)
+  ["name", "description", "price", "on_sale", "created_at", "updated_at"]
+  end
+
+  # 允许通过分类来筛选产品
+  def self.ransackable_associations(auth_object = nil)
+    ["categories", "product_categories"]
+  end
 end

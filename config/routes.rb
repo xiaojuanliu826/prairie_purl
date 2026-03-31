@@ -25,6 +25,11 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+  resource :cart, controller: 'cart', only: [:show] do
+    member do
+      post "add/:product_id", to: "cart#add", as: :add_to
+      patch "update/:product_id", to: "cart#update", as: :update
+      delete "remove/:product_id", to: "cart#remove", as: :remove
+    end
+  end
 end

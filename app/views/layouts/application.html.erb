@@ -18,21 +18,35 @@
   </head>
 
   <body>
-    <nav class="main-navigation" style="padding: 1rem; border-bottom: 1px solid #ddd; margin-bottom: 2rem;">
+    <nav class="main-navigation" style="display: flex; align-items: center; flex-wrap: wrap; padding: 1rem; border-bottom: 1px solid #ddd; margin-bottom: 2rem;">
       <%= link_to "Home", root_path, style: "margin-right: 15px;" %>
 
       <% Category.all.each do |category| %>
-        <%= link_to category.name, category_path(category), style: "margin-right: 15px;" %>
+      <%= link_to category.name, category_path(category), style: "margin-right: 15px;" %>
       <% end %>
 
-      <!-- 🔥 filter（关键） -->
       <%= link_to "On Sale", products_path(filter: "on_sale"), style: "margin-right: 15px;" %>
       <%= link_to "New Arrivals", products_path(filter: "new"), style: "margin-right: 15px;" %>
 
       <%= link_to "About", about_path, style: "margin-right: 15px;" %>
       <%= link_to "Contact", contact_path, style: "margin-right: 15px;" %>
       <%= link_to "Cart", cart_path, style: "margin-right: 15px;" %>
-    </nav>
+
+      <% if user_signed_in? %>
+      <span style="margin-right: 15px; color: #666;">
+      📍 Shipping to: <strong><%= current_user.province&.name || "Not set" %></strong>
+      </span>
+
+      <%= link_to "Edit Profile", edit_user_registration_path, style: "margin-right: 15px;" %>
+
+      <div style="display: inline-block;">
+      <%= button_to "Logout", destroy_user_session_path, method: :delete, style: "background: none; border: none; color: black; font-size: 16px; cursor: pointer; padding: 0; text-decoration: underline;" %>
+      </div>
+      <% else %>
+      <%= link_to "Login", new_user_session_path, style: "margin-right: 15px;" %>
+      <%= link_to "Sign Up", new_user_registration_path %>
+      <% end %>
+   </nav>
 
     <% if flash[:alert] %>
       <p style="color: red;"><%= flash[:alert] %></p>

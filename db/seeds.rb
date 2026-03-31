@@ -36,4 +36,14 @@ Page.find_or_create_by!(title: "Contact") do |page|
   page.content = "Contact us at contact@prairiepurl.ca"
 end
 
+Province.destroy_all
+
+Province.create!([
+  { name: "Alberta", gst: 0.05, pst: 0.0, hst: 0.0 },
+  { name: "British Columbia", gst: 0.05, pst: 0.07, hst: 0.0 },
+  { name: "Manitoba", gst: 0.05, pst: 0.07, hst: 0.0 },
+  { name: "Ontario", gst: 0.0, pst: 0.0, hst: 0.13 },
+  { name: "Quebec", gst: 0.05, pst: 0.09975, hst: 0.0 }
+])
+
 puts "Seed completed: Created 100 products and assigned categories."

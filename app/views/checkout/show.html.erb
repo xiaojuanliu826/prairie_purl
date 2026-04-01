@@ -1,20 +1,51 @@
-<h1>Invoice</h1>
+<h1>Checkout</h1>
 
-<% @products.each do |product| %>
-  <p>
-    <%= product.name %> -
-    Qty: <%= session[:cart][product.id.to_s] %> -
-    $<%= product.price %>
-  </p>
+<% if @needs_address %>
+  <div class="address-step" style="background: #fff3cd; padding: 20px; border: 1px solid #ffeeba; border-radius: 5px;">
+    <h3>Step 1: Provide Shipping Address</h3>
+    <p>We need your address and province to calculate the correct taxes for your order.</p>
+
+    <%# 注意：这里直接提交到 Devise 的用户更新路径 %>
+    <%= form_with model: current_user, url: update_address_checkout_path, method: :patch do |f| %>
+      <div style="margin-bottom: 10px;">
+        <%= f.label :address, "Street Address" %>
+        <%= f.text_field :address, required: true, class: "form-control" %>
+      </div>
+
+      <div style="margin-bottom: 10px;">
+        <%= f.label :city, "City" %>
+        <%= f.text_field :city, required: true, class: "form-control" %>
+      </div>
+
+      <div style="margin-bottom: 10px;">
+        <%= f.label :province_id, "Province" %>
+        <%= f.collection_select :province_id, Province.all, :id, :name, { prompt: "Select Province" }, { required: true, class: "form-control" } %>
+      </div>
+
+      <%= f.submit "Save & Calculate Taxes", class: "btn-primary" %>
+    <% end %>
+  </div>
+
+<% else %>
+  <div class="invoice-step">
+    <h3>Step 2: Review Your Invoice</h3>
+    <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+      <p><strong>Shipping to:</strong> <%= current_user.address %>, <%= current_user.city %>, <%= current_user.province.name %></p>
+    </div>
+
+    <%# 这里放你之前的订单明细表格 %>
+    <table class="table" style="width: 100%; border-bottom: 1px solid #ddd;">
+      </table>
+
+    <div style="text-align: right; margin-top: 20px;">
+      <p>Subtotal: <%= number_to_currency(@subtotal) %></p>
+      <p>GST (<%= (current_user.province.gst * 100).to_i %>%): <%= number_to_currency(@gst) %></p>
+      <p>PST (<%= (current_user.province.pst * 100).to_i %>%): <%= number_to_currency(@pst) %></p>
+      <p>HST (<%= (current_user.province.hst * 100).to_i %>%): <%= number_to_currency(@hst) %></p>
+      <hr>
+      <h2 style="color: #28a745;">Total: <%= number_to_currency(@total) %></h2>
+
+      <%= button_to "Confirm Order", checkout_path, method: :post, style: "background: #28a745; color: white; padding: 12px 24px; border: none; border-radius: 5px; cursor: pointer;" %>
+    </div>
+  </div>
 <% end %>
-
-<hr>
-
-<p>Subtotal: $<%= @subtotal %></p>
-<p>GST: $<%= @gst %></p>
-<p>PST: $<%= @pst %></p>
-<p>HST: $<%= @hst %></p>
-
-<h3>Total: $<%= @total %></h3>
-
-<%= button_to "Confirm Order", checkout_path, method: :post %>

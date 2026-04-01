@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
 
   protected
 
+
   # 3. 允许 Devise 处理额外的字段
   def configure_permitted_parameters
     # 注册时允许传入 address, city, province_id

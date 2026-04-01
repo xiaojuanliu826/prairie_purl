@@ -25,7 +25,9 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
-  resource :checkout, controller: 'checkout', only: [:show, :create]
+  resource :checkout, controller: 'checkout', only: [:show, :create] do
+  patch 'update_address', on: :member # 增加一个 patch 路由
+  end
 
   resource :cart, controller: 'cart', only: [:show] do
     member do

@@ -1,0 +1,30 @@
+<h1>Your Cart</h1>
+
+<% if @products.any? %>
+  <% @products.each do |product| %>
+    <div style="border-bottom: 1px solid #ccc; padding: 10px 0;">
+      <h3><%= product.name %></h3>
+      <p>Price: <%= number_to_currency(product.price) %></p>
+
+      <%= form_with url: update_cart_path(product), method: :patch do %>
+        <%= label_tag :quantity, "Quantity:" %>
+        <%= number_field_tag :quantity, session[:cart][product.id.to_s], min: 1 %>
+        <%= submit_tag "Update" %>
+      <% end %>
+
+      <%= button_to "Remove", remove_cart_path(product), method: :delete, data: { confirm: "Are you sure?" } %>
+    </div>
+  <% end %>
+
+  <div style="margin-top: 20px; padding: 15px; background: #f9f9f9;">
+    <%# 计算总价的简单逻辑 %>
+    <h3>Total: <%= number_to_currency(@products.sum { |p| p.price * session[:cart][p.id.to_s].to_i }) %></h3>
+
+    <hr>
+
+    <%= link_to "Proceed to Checkout", checkout_path, class: "btn-checkout", style: "background-color: #28a745; color: white; padding: 10px 20px; text-decoration: none; display: inline-block; border-radius: 5px;" %>
+  </div>
+
+<% else %>
+  <p>Your cart is empty. <%= link_to "Go shopping!", products_path %></p>
+<% end %>

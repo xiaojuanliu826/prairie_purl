@@ -1,4 +1,9 @@
 source "https://rubygems.org"
+# admin dashboard
+gem 'activeadmin'
+
+  # authentication
+gem 'devise'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.2.3"
@@ -49,11 +54,7 @@ group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 
-  # admin dashboard
-  gem 'activeadmin'
 
-  # authentication
-  gem 'devise'
 
   # pagination
   gem 'kaminari'
@@ -69,4 +70,5 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  gem 'minitest', '~> 5.0'
 end

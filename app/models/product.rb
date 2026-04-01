@@ -7,6 +7,8 @@ class Product < ApplicationRecord
   # associate with categories through the join table
   has_many :categories, through: :product_categories
 
+  has_many :order_items
+
   # validate: ensure name is present
   validates :name, presence: true
 

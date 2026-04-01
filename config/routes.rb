@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
-  get 'checkout', to: 'checkout#show', as: 'checkout'
+  resource :checkout, controller: 'checkout', only: [:show, :create]
 
   resource :cart, controller: 'cart', only: [:show] do
     member do

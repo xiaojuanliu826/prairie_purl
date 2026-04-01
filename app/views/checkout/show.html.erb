@@ -1,0 +1,20 @@
+<h1>Invoice</h1>
+
+<% @products.each do |product| %>
+  <p>
+    <%= product.name %> -
+    Qty: <%= session[:cart][product.id.to_s] %> -
+    $<%= product.price %>
+  </p>
+<% end %>
+
+<hr>
+
+<p>Subtotal: $<%= @subtotal %></p>
+<p>GST: $<%= @gst %></p>
+<p>PST: $<%= @pst %></p>
+<p>HST: $<%= @hst %></p>
+
+<h3>Total: $<%= @total %></h3>
+
+<%= button_to "Confirm Order", checkout_path, method: :post %>

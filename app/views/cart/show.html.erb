@@ -17,7 +17,7 @@
   <% end %>
 
   <div style="margin-top: 20px; padding: 15px; background: #f9f9f9;">
-    <%# 计算总价的简单逻辑 %>
+    <%# 计算总价 %>
     <h3>Total: <%= number_to_currency(@products.sum { |p| p.price * session[:cart][p.id.to_s].to_i }) %></h3>
 
     <hr>

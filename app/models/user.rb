@@ -5,4 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   belongs_to :province, optional: true
   has_many :orders
+
+  def display_name
+    email # 或者你的用户名属性，比如 name
+  end
 end

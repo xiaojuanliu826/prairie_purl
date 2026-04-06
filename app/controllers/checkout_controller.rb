@@ -21,53 +21,98 @@ class CheckoutController < ApplicationController
   end
 
   def create
-    # 二重检查：防止绕过前端直接提交
+    # 1. 地址检查
     if current_user.address.blank? || current_user.city.blank? || current_user.province_id.nil?
       redirect_to checkout_path, alert: "Please provide your full shipping address before confirming."
       return
     end
 
-    ActiveRecord::Base.transaction do
-      # 1. 创建订单（保存当前税率和地址快照）
-      @order = current_user.orders.create!(
-        gst: current_user.province&.gst || 0,
-        pst: current_user.province&.pst || 0,
-        hst: current_user.province&.hst || 0,
-        address: current_user.address, # 保存下单瞬间的地址
-        city: current_user.city,
-        total_amount: 0,# 保存下单瞬间的城市
-        status: "pending"
-      )
+    @cart = session[:cart] || {}
+    # 这里不需要判断 @cart.empty? 了，因为你顶部有 before_action :ensure_cart_not_empty
 
-      running_subtotal = 0
-
-      # 2. 创建订单项
-      session[:cart].each do |product_id, quantity|
-        product = Product.find(product_id)
-        item_price = product.price
-
-        @order.order_items.create!(
-          product: product,
-          quantity: quantity,
-          price: item_price
+    # 注意：我们将所有逻辑包裹在一个 begin...rescue 块内
+    begin
+      ActiveRecord::Base.transaction do
+        # 2. 创建订单
+        @order = current_user.orders.create!(
+          gst: current_user.province&.gst || 0,
+          pst: current_user.province&.pst || 0,
+          hst: current_user.province&.hst || 0,
+          address: current_user.address,
+          city: current_user.city,
+          status: "new",
+          total_amount: 0
         )
 
-        running_subtotal += item_price * quantity.to_i
+        line_items_for_stripe = []
+        running_subtotal = 0
+
+        # 3. 遍历购物车
+        @cart.each do |product_id, quantity|
+          product = Product.find(product_id)
+          item_price = product.price
+
+          @order.order_items.create!(
+            product: product,
+            quantity: quantity,
+            price: item_price
+          )
+
+          running_subtotal += item_price * quantity.to_i
+
+          line_items_for_stripe << {
+            price_data: {
+              currency: "cad",
+              product_data: { name: product.name },
+              unit_amount: (item_price * 100).to_i
+            },
+            quantity: quantity.to_i
+          }
+        end
+
+        # 4. 更新总额
+        tax_rate = @order.gst + @order.pst + @order.hst
+        total_with_tax = running_subtotal * (1 + tax_rate)
+        @order.update!(total_amount: total_with_tax)
+
+        # 5. Stripe Session
+        # ⚠️ 请确认路由是 success_checkout_url 还是 success_checkouts_url
+        stripe_session = Stripe::Checkout::Session.create(
+          payment_method_types: ["card"],
+          line_items: line_items_for_stripe,
+          mode: "payment",
+          success_url: success_checkout_url(order_id: @order.id),
+          cancel_url: cart_url
+        )
+
+        @order.update!(stripe_id: stripe_session.id)
+
+        # 6. 跳转
+        redirect_to stripe_session.url, allow_other_host: true
       end
 
-      # 3. 计算并更新总额（含税）
-      tax_amount = running_subtotal * (@order.gst + @order.pst + @order.hst)
-      @order.update!(total_amount: running_subtotal + tax_amount)
-
-      # 4. 完成
-      session[:cart] = {}
-      redirect_to root_path, notice: "Order ##{@order.id} placed successfully! Total: #{helpers.number_to_currency(@order.total_amount)}"
+    rescue Stripe::StripeError => e
+      redirect_to cart_path, alert: "Stripe Error: #{e.message}"
+    rescue ActiveRecord::RecordInvalid => e
+      redirect_to cart_path, alert: "Order failed: #{e.message}"
+    rescue StandardError => e
+      redirect_to cart_path, alert: "Something went wrong: #{e.message}"
     end
+  end # create 的真正结束位置
 
-  rescue ActiveRecord::RecordInvalid => e
-    redirect_to cart_path, alert: "Order failed: #{e.message}"
-  rescue StandardError => e
-    redirect_to cart_path, alert: "Something went wrong. Please try again."
+  def success
+    @order = current_user.orders.find_by(id: params[:order_id])
+    if @order
+    @order.update(status: "paid")
+    session[:cart] = {} # 支付成功，清空购物车
+    else
+    redirect_to root_path, alert: "Order not found."
+    end
+  end
+
+  def cancel
+  # 用户取消支付时的逻辑，通常直接渲染个页面或跳回购物车
+    redirect_to cart_path, alert: "Payment was cancelled."
   end
 
   private

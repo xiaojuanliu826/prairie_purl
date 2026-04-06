@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "orders/index"
+  get "orders/show"
   get "pages/show"
   get "categories/show"
   # custom routes for static pages
@@ -27,7 +29,11 @@ Rails.application.routes.draw do
 
   resource :checkout, controller: 'checkout', only: [:show, :create] do
   patch 'update_address', on: :member # 增加一个 patch 路由
+  get 'success'          # 支付成功回调 🎯 重要
+  get 'cancel'            # 支付取消回调（可选）
   end
+
+  resources :orders, only: [:index, :show]
 
   resource :cart, controller: 'cart', only: [:show] do
     member do

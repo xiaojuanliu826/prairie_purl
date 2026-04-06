@@ -1,0 +1,24 @@
+<h1>My Order History</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Order #</th>
+      <th>Date</th>
+      <th>Status</th>
+      <th>Total</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @orders.each do |order| %>
+      <tr>
+        <td><%= order.id %></td>
+        <td><%= order.created_at.strftime("%B %d, %Y") %></td>
+        <td><span class="badge bg-info"><%= order.status %></span></td>
+        <td><%= number_to_currency(order.total_amount) %></td>
+        <td><%= link_to "View Details", order_path(order), class: "btn btn-sm btn-outline-primary" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

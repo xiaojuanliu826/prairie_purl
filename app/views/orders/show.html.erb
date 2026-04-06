@@ -1,0 +1,77 @@
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Order Details #<%= @order.id %></h1>
+    <%= link_to 'Back to My Orders', orders_path, class: 'btn btn-outline-secondary' %>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Items Purchased</h5>
+        </div>
+        <div class="card-body">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @order.order_items.each do |item| %>
+                <tr>
+                  <td>
+                    <strong><%= item.product.name %></strong>
+                  </td>
+                  <td><%= number_to_currency(item.price) %></td>
+                  <td><%= item.quantity %></td>
+                  <td><%= number_to_currency(item.price * item.quantity) %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light">
+          <h5 class="mb-0">Order Summary</h5>
+        </div>
+        <div class="card-body">
+          <p><strong>Status:</strong>
+            <span class="badge <%= @order.status == 'paid' ? 'bg-success' : 'bg-info' %>">
+              <%= @order.status.capitalize %>
+            </span>
+          </p>
+          <p><strong>Date:</strong> <%= @order.created_at.strftime("%B %d, %Y") %></p>
+          <hr>
+          <div class="d-flex justify-content-between">
+            <span>GST:</span> <span><%= number_to_currency(@order.total_amount * @order.gst) if @order.gst %></span>
+          </div>
+          <div class="d-flex justify-content-between">
+            <span>PST:</span> <span><%= number_to_currency(@order.total_amount * @order.pst) if @order.pst %></span>
+          </div>
+          <div class="d-flex justify-content-between font-weight-bold mt-2">
+            <strong>Total Paid:</strong> <strong><%= number_to_currency(@order.total_amount) %></strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="card shadow-sm">
+        <div class="card-header bg-light">
+          <h5 class="mb-0">Shipping Address</h5>
+        </div>
+        <div class="card-body">
+          <p class="mb-1"><%= current_user.email %></p>
+          <p class="mb-1"><%= @order.address %></p>
+          <p><%= @order.city %>, MB</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

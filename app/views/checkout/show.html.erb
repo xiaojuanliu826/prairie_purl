@@ -45,7 +45,7 @@
       <hr>
       <h2 style="color: #28a745;">Total: <%= number_to_currency(@total) %></h2>
 
-      <%= button_to "Confirm Order", checkout_path, method: :post, style: "background: #28a745; color: white; padding: 12px 24px; border: none; border-radius: 5px; cursor: pointer;" %>
+      <%= button_to "Confirm Order", checkout_path, method: :post, data: { turbo: false },style: "background: #28a745; color: white; padding: 12px 24px; border: none; border-radius: 5px; cursor: pointer;" %>
     </div>
   </div>
 <% end %>

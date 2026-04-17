@@ -3,53 +3,94 @@
   <head>
     <title><%= content_for(:title) || "Prairie Purl" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= yield :head %>
+    <style>
+    /* ---------------------------------
+       1. 全局布局 (Global Layout)
+       --------------------------------- */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      background-color: #f7fafc;
+      color: #2d3748;
+    }
 
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* ---------------------------------
+       2. 导航栏样式 (Navbar)
+       --------------------------------- */
+    .main-navigation {
+      width: 100%;
+      background: white;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 5%;
+      flex-wrap: wrap;
+    }
+
+    .nav-brand .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-decoration: none;
+      color: #2d3748;
+    }
+
+    .nav-links a, .nav-user-actions a {
+      text-decoration: none;
+      color: #4a5568;
+      margin: 0 10px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: #3182ce; }
+
+    .badge-sale { color: #e53e3e !important; font-weight: bold; }
+
+    .user-location { color: #718096; font-size: 0.85rem; margin-right: 10px; }
+
+    /* ---------------------------------
+       3. 响应式设计 (Responsive)
+       --------------------------------- */
+    @media (max-width: 768px) {
+      .nav-container {
+        flex-direction: column;
+        padding: 1rem;
+      }
+      .nav-links, .nav-user-actions {
+        margin-top: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .nav-links a, .nav-user-actions a {
+        margin: 5px;
+      }
+    }
+  </style>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
-    <nav class="main-navigation" style="display: flex; align-items: center; flex-wrap: wrap; padding: 1rem; border-bottom: 1px solid #ddd; margin-bottom: 2rem;">
-      <%= link_to "Home", root_path, style: "margin-right: 15px;" %>
+    <%= render "shared/navbar" %>
 
-      <% Category.all.each do |category| %>
-      <%= link_to category.name, category_path(category), style: "margin-right: 15px;" %>
-      <% end %>
+    <main class="container">
+      <%= render "shared/flash" %>
+      <%= yield %>
+    </main>
 
-      <%= link_to "On Sale", products_path(filter: "on_sale"), style: "margin-right: 15px;" %>
-      <%= link_to "New Arrivals", products_path(filter: "new"), style: "margin-right: 15px;" %>
 
-      <%= link_to "About", about_path, style: "margin-right: 15px;" %>
-      <%= link_to "Contact", contact_path, style: "margin-right: 15px;" %>
-      <%= link_to "Cart", cart_path, style: "margin-right: 15px;" %>
-
-      <% if user_signed_in? %>
-      <span style="margin-right: 15px; color: #666;">
-      📍 Shipping to: <strong><%= current_user.province&.name || "Not set" %></strong>
-      </span>
-
-      <%= link_to "Edit Profile", edit_user_registration_path, style: "margin-right: 15px;" %>
-      <%= link_to 'My Orders', orders_path, style: "margin-right: 15px;" %>
-
-      <%= link_to "Logout", destroy_user_session_path, style: "margin-right: 15px;" %>
-      <% else %>
-      <%= link_to "Login", new_user_session_path, style: "margin-right: 15px;" %>
-      <%= link_to "Sign Up", new_user_registration_path %>
-      <% end %>
-   </nav>
-
-    <% if flash[:alert] %>
-      <p style="color: red;"><%= flash[:alert] %></p>
-    <% end %>
-    <%= yield %>
   </body>
 </html>

@@ -1,15 +1,74 @@
 /*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
  *= require_tree .
  *= require_self
  */
+
+/* 1. 基础容器设置 */
+.main-navigation { width: 100%; }
+.nav-container {
+  display: flex;
+  justify-content: space-between; /* 左右两端对齐 */
+  align-items: center;
+  padding: 1rem 5%;
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  flex-wrap: wrap; /* 关键：防止手机端溢出 */
+  width: 100%;
+  box-sizing: border-box; /* 确保 padding 不撑破宽度 */
+}
+
+/* 2. 链接通用样式 */
+.nav-links a,
+.nav-user-actions a,
+.nav-brand a {
+  text-decoration: none;
+  color: #444;
+  margin: 0 12px; /* 增加间距防止挤在一起 */
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+/* 3. 特殊元素样式 */
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2d3748 !important;
+}
+
+.badge-sale {
+  color: #e53e3e !important; /* 红色醒目 */
+  font-weight: 600;
+}
+
+.user-location {
+  margin-right: 15px;
+  color: #718096;
+  font-size: 0.9rem;
+}
+
+.btn-signup {
+  background-color: #2b6cb0;
+  color: white !important;
+  padding: 6px 15px;
+  border-radius: 4px;
+}
+
+/* 4. 响应式布局：当屏幕宽度小于 1024px（平板和手机）时 */
+@media (max-width: 1024px) {
+  .nav-container {
+    flex-direction: column; /* 垂直排列 */
+    padding: 1rem;
+  }
+
+  .nav-links, .nav-user-actions {
+    display: flex;
+    flex-wrap: wrap; /* 允许链接换行 */
+    justify-content: center;
+    margin-top: 15px;
+    width: 100%;
+  }
+
+  .nav-links a, .nav-user-actions a {
+    margin: 5px 10px; /* 手机端上下左右都有点间距 */
+  }
+}

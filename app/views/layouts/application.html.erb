@@ -287,6 +287,95 @@
   .summary-actions { display: flex; flex-direction: column; gap: 15px; align-items: center; }
   .link-continue { margin: 0; }
 }
+
+ 这是结账流程的最后三步。目前这些代码混合了内联样式和 Bootstrap 类名，在你的 Asset Pipeline 失灵的情况下，我们需要用 “分步卡片（Step Cards）” 的设计思路，通过内联 CSS 把它们整合成一套专业的流程。
+
+1. 统一的 CSS（请加入 application.html.erb 的 <style>）
+这套样式专门为表单和发票设计，确保在移动端输入框是全宽的：
+
+CSS
+/* 结账流程容器 */
+.checkout-box {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  padding: 2.5rem;
+  max-width: 800px;
+  margin: 2rem auto;
+}
+
+/* 步骤指示器样式 */
+.step-header {
+  border-left: 4px solid #2b6cb0;
+  padding-left: 15px;
+  margin-bottom: 2rem;
+}
+
+.step-header h3 {
+  margin: 0;
+  color: #2d3748;
+}
+
+/* 表单控件 */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  box-sizing: border-box; /* 关键：防止 padding 撑破宽度 */
+}
+
+/* 发票详情 */
+.invoice-info-banner {
+  background: #f7fafc;
+  border: 1px solid #edf2f7;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.price-summary {
+  text-align: right;
+  border-top: 2px solid #edf2f7;
+  padding-top: 1.5rem;
+}
+
+.price-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 50px;
+  margin-bottom: 8px;
+  color: #718096;
+}
+
+.total-row {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #28a745;
+  margin-top: 10px;
+}
+
+/* 成功页面卡片 */
+.success-card {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.success-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
   </style>
     <%= javascript_importmap_tags %>
   </head>

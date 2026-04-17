@@ -185,6 +185,108 @@
   justify-content: center;
   margin-top: 3rem;
 }
+/* 购物车容器 */
+.cart-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  flex-wrap: wrap; /* 关键：支持手机端换行 */
+}
+
+.item-info { flex: 1; min-width: 200px; }
+.item-name { margin: 0; font-size: 1.25rem; color: #2d3748; }
+.item-price { color: #718096; margin-top: 5px; }
+
+.item-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+/* 数量输入框 */
+.qty-control {
+  display: flex;
+  gap: 5px;
+}
+
+.qty-input {
+  width: 60px;
+  padding: 5px;
+  border: 1px solid #cbd5e0;
+  border-radius: 4px;
+}
+
+.btn-update {
+  background: #edf2f7;
+  border: 1px solid #cbd5e0;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-remove {
+  background: none;
+  border: none;
+  color: #e53e3e;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 0.9rem;
+}
+
+/* 结算区域 */
+.cart-summary {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-top: 2rem;
+  text-align: right;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.summary-details {
+  display: flex;
+  justify-content: flex-end;
+  align-items: baseline;
+  gap: 20px;
+  margin-bottom: 1.5rem;
+}
+
+.total-label { font-size: 1.2rem; color: #4a5568; }
+.total-amount { font-size: 2rem; font-weight: bold; color: #2d3748; }
+
+.btn-checkout {
+  background: #28a745;
+  color: white !important;
+  padding: 12px 30px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
+  transition: background 0.2s;
+}
+
+.btn-checkout:hover { background: #218838; }
+.link-continue { margin-right: 20px; color: #718096; text-decoration: none; }
+
+/* 响应式微调 */
+@media (max-width: 600px) {
+  .cart-item { flex-direction: column; text-align: center; }
+  .item-actions { justify-content: center; margin-top: 15px; width: 100%; }
+  .summary-details { justify-content: center; }
+  .summary-actions { display: flex; flex-direction: column; gap: 15px; align-items: center; }
+  .link-continue { margin: 0; }
+}
   </style>
     <%= javascript_importmap_tags %>
   </head>

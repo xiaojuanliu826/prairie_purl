@@ -23,5 +23,6 @@ module PrairiePurl
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    config.action_view.make_origin_tag_hidden_autocomplete_default = false
   end
 end

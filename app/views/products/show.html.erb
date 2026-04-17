@@ -16,4 +16,7 @@
     <%= link_to category.name, category_path(category), class: "category-link" %>
   <% end %>
 </p>
-<%= button_to "Add to Cart", add_to_cart_path(@product), method: :post %>
+<form action="<%= add_to_cart_path(product_id: @product.id) %>" method="post">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <button type="submit" style="/* 这里可以加上你原来的 CSS */">Add to Cart</button>
+</form>

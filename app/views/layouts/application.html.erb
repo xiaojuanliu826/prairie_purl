@@ -40,9 +40,7 @@
       <%= link_to "Edit Profile", edit_user_registration_path, style: "margin-right: 15px;" %>
       <%= link_to 'My Orders', orders_path, style: "margin-right: 15px;" %>
 
-      <div style="display: inline-block;">
-      <%= button_to "Logout", destroy_user_session_path, method: :delete, style: "background: none; border: none; color: black; font-size: 16px; cursor: pointer; padding: 0; text-decoration: underline;" %>
-      </div>
+      <%= link_to "Logout", destroy_user_session_path, style: "margin-right: 15px;" %>
       <% else %>
       <%= link_to "Login", new_user_session_path, style: "margin-right: 15px;" %>
       <%= link_to "Sign Up", new_user_registration_path %>

@@ -4,7 +4,7 @@
   <% if @products.any? %>
     <% @products.each do |product| %>
       <div style="border-bottom: 1px solid #eee; padding: 10px 0;">
-        <h3><%= link_to product.name, product_path(product) %></h3>
+        <h2><%= link_to product.name, product_path(product) %></h2>
         <p>Price: $<%= product.price %></p>
 
         <% if product.on_sale %>

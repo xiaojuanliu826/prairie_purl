@@ -1,25 +1,25 @@
-<h1>Category: <%= @category.name %></h1>
+<div class="category-header">
+  <h1 class="page-title">Category: <%= @category.name %></h1>
+  <%= link_to "← Back to All Products", root_path, class: "back-link" %>
+</div>
 
-<div class="category-products">
+<div class="category-container">
   <% if @products.any? %>
-    <% @products.each do |product| %>
-      <div style="border-bottom: 1px solid #eee; padding: 10px 0;">
-        <h2><%= link_to product.name, product_path(product) %></h2>
-        <p>Price: $<%= product.price %></p>
+    <%# 关键：复用 product-grid 类名，这会自动应用你写在 application.html.erb 里的网格样式 %>
+    <div class="product-grid">
+      <% @products.each do |product| %>
+        <%# 关键：复用你刚才创建的 Partial，确保 UI 一致性 %>
+        <%= render partial: 'products/product_card', locals: { product: product } %>
+      <% end %>
+    </div>
 
-        <% if product.on_sale %>
-          <span style="color: red; font-weight: bold;">ON SALE!</span>
-        <% end %>
-      </div>
-    <% end %>
-
-    <div class="pagination">
+    <div class="pagination-footer">
       <%= paginate @products %>
     </div>
   <% else %>
-    <p>This category currently has no products.</p>
+    <div class="empty-state">
+      <p>This category currently has no products.</p>
+      <%= link_to "Browse all products", root_path, class: "btn-primary" %>
+    </div>
   <% end %>
 </div>
-
-<hr>
-<%= link_to "← Back to All Products", root_path %>

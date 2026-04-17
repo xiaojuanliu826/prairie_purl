@@ -153,6 +153,38 @@
   .filter-form { flex-direction: column; }
   .btn-search { width: 100%; }
 }
+
+.category-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.back-link {
+  text-decoration: none;
+  color: #718096;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.back-link:hover {
+  color: #2b6cb0;
+}
+
+/* 空状态处理（如果这个分类没产品） */
+.empty-state {
+  text-align: center;
+  padding: 4rem;
+  background: white;
+  border-radius: 12px;
+  border: 2px dashed #e2e8f0;
+}
+
+/* 确保分页居中 */
+.pagination-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+}
   </style>
     <%= javascript_importmap_tags %>
   </head>

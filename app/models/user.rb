@@ -6,6 +6,9 @@ class User < ApplicationRecord
   belongs_to :province, optional: true
   has_many :orders
 
+  validates :email, presence: true, uniqueness: true
+  validates :is_admin, inclusion: { in: [true, false] }
+
   def display_name
     email # 或者你的用户名属性，比如 name
   end

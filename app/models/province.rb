@@ -2,7 +2,8 @@ class Province < ApplicationRecord
   has_many :users
 
   # 验证
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
+  validates :pst, :gst, :hst, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
   def self.ransackable_attributes(auth_object = nil)
     ["name", "gst", "pst", "hst", "created_at", "updated_at", "id"]

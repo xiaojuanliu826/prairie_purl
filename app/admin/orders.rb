@@ -9,9 +9,9 @@ ActiveAdmin.register Order do
       f.input :status, as: :select, collection: Order::STATUSES # 变成下拉框
       f.input :address
       f.input :city
-      f.input :gst
-      f.input :pst
-      f.input :hst
+      f.input :gst, input_html: { min: 0, step: 0.001 }
+      f.input :pst, input_html: { min: 0, step: 0.001 }
+      f.input :hst, input_html: { min: 0, step: 0.001 }
      end
     f.actions
   end

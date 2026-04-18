@@ -35,7 +35,7 @@ ActiveAdmin.register Product do
     f.inputs "Product Details" do
       f.input :name
       f.input :description
-      f.input :price
+      f.input :price, input_html: { min: 0, step: 0.01 }
       f.input :on_sale
       # image upload with preview (if already attached)
       f.input :image, as: :file, hint: f.object.image.attached? ? image_tag(f.object.image.variant(resize_to_limit: [100, 100])) : content_tag(:span, "No image uploaded")

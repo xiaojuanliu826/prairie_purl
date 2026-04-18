@@ -5,7 +5,7 @@ class Category < ApplicationRecord
   has_many :products, through: :product_categories
 
   # ensure category name is present
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
 
   def self.ransackable_attributes(auth_object = nil)
   ["name", "created_at", "updated_at"]

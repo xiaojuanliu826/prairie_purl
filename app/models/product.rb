@@ -10,10 +10,13 @@ class Product < ApplicationRecord
   has_many :order_items
 
   # validate: ensure name is present
-  validates :name, presence: true
+  validates :name, :description, presence: true
 
   # validate: price must be present
-  validates :price, presence: true
+  validates :price, presence: true, numericality: { greater_than: 0 }
+
+
+  validates :on_sale, inclusion: { in: [true, false] }
 
   def self.ransackable_attributes(auth_object = nil)
   ["name", "description", "price", "on_sale", "created_at", "updated_at"]

@@ -1,5 +1,4 @@
 class Product < ApplicationRecord
-
   has_one_attached :image
   # a product can have multiple categories
   has_many :product_categories, dependent: :destroy
@@ -16,14 +15,19 @@ class Product < ApplicationRecord
   validates :price, presence: true, numericality: { greater_than: 0 }
 
 
-  validates :on_sale, inclusion: { in: [true, false] }
+  validates :on_sale, inclusion: { in: [ true, false ] }
+
+  # 去掉 .processed，让 Rails 按需生成缩略图（Lazy Loading）
+  has_one_attached :image do |attachable|
+  attachable.variant :store_index, resize_to_limit: [ 300, 300 ]
+  end
 
   def self.ransackable_attributes(auth_object = nil)
-  ["name", "description", "price", "on_sale", "created_at", "updated_at"]
+  [ "name", "description", "price", "on_sale", "created_at", "updated_at" ]
   end
 
   # 允许通过分类来筛选产品
   def self.ransackable_associations(auth_object = nil)
-    ["categories", "product_categories"]
+    [ "categories", "product_categories" ]
   end
 end

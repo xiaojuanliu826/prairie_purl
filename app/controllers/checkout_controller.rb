@@ -1,6 +1,6 @@
 class CheckoutController < ApplicationController
   before_action :authenticate_user!
-  before_action :ensure_cart_not_empty, only: [:create]
+  before_action :ensure_cart_not_empty, only: [ :create ]
 
   def show
     prepare_checkout_data
@@ -78,7 +78,7 @@ class CheckoutController < ApplicationController
         # 5. Stripe Session
         # ⚠️ 请确认路由是 success_checkout_url 还是 success_checkouts_url
         stripe_session = Stripe::Checkout::Session.create(
-          payment_method_types: ["card"],
+          payment_method_types: [ "card" ],
           line_items: line_items_for_stripe,
           mode: "payment",
           success_url: success_checkout_url(order_id: @order.id),
@@ -111,7 +111,7 @@ class CheckoutController < ApplicationController
   end
 
   def cancel
-  # 用户取消支付时的逻辑，通常直接渲染个页面或跳回购物车
+    # 用户取消支付时的逻辑，通常直接渲染个页面或跳回购物车
     redirect_to cart_path, alert: "Payment was cancelled."
   end
 

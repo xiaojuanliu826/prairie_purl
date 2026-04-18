@@ -1,5 +1,4 @@
 class CartController < ApplicationController
-
   # 🛒 显示购物车
   def show
     # 如果 cart 不存在就初始化
@@ -10,7 +9,6 @@ class CartController < ApplicationController
 
     # 查询数据库获取 product
     @products = Product.where(id: product_ids)
-
   end
 
   # ➕ 添加商品
@@ -51,5 +49,4 @@ class CartController < ApplicationController
 
     redirect_to cart_path, notice: "Item removed"
   end
-
 end

@@ -11,9 +11,9 @@ class ApplicationController < ActionController::Base
   # 3. 允许 Devise 处理额外的字段
   def configure_permitted_parameters
     # 注册时允许传入 address, city, province_id
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:address, :city, :province_id])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [ :address, :city, :province_id ])
 
     # 修改个人资料时也允许传入这些字段
-    devise_parameter_sanitizer.permit(:account_update, keys: [:address, :city, :province_id])
+    devise_parameter_sanitizer.permit(:account_update, keys: [ :address, :city, :province_id ])
   end
 end

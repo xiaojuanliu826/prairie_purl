@@ -8,12 +8,12 @@ class Category < ApplicationRecord
   validates :name, presence: true, uniqueness: true
 
   def self.ransackable_attributes(auth_object = nil)
-  ["name", "created_at", "updated_at"]
+  [ "name", "created_at", "updated_at" ]
   end
 
   # 允许搜索的关联（修复当前报错的关键）
   def self.ransackable_associations(auth_object = nil)
-    ["product_categories", "products"]
+    [ "product_categories", "products" ]
   end
 
 

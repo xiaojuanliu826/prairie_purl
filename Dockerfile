@@ -43,7 +43,10 @@ COPY . .
 RUN bundle exec bootsnap precompile app/ lib/
 
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
+RUN cp config/database.yml config/database.yml.bak && \
+    echo 'production: {adapter: postgresql, database: /tmp/db}' > config/database.yml && \
+    SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile && \
+    mv config/database.yml.bak config/database.yml
 
 
 

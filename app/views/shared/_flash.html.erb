@@ -1,0 +1,5 @@
+<% flash.each do |type, message| %>
+  <div class="flash-message <%= type %>" style="padding: 1rem; margin-bottom: 1rem; border-radius: 4px; <%= type == 'notice' ? 'background: #e6fffa; color: #2c7a7b;' : 'background: #fff5f5; color: #c53030;' %>">
+    <%= message %>
+  </div>
+<% end %>

@@ -1,5 +1,7 @@
 ActiveAdmin.register Order do
+  menu priority: 2, label: "Orders"
   permit_params :status, :user_id, :total_amount, :gst, :pst, :hst, :address, :city
+
   form do |f|
     f.inputs "Order Details" do
       f.input :user, member_label: :email # 解决 User 显示乱码问题

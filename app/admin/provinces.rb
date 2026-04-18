@@ -1,5 +1,6 @@
 ActiveAdmin.register Province do
 
+  menu parent: "Settings", priority: 2, label: "Provinces"
   permit_params :name, :gst, :pst, :hst
   filter :name
   filter :gst

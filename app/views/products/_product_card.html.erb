@@ -1,0 +1,14 @@
+<div class="product-card">
+  <div class="product-image-wrapper">
+    <% if product.image.attached? %>
+      <%= image_tag product.image, class: "product-image" %>
+    <% else %>
+      <div class="no-image">No Image</div>
+    <% end %>
+  </div>
+
+  <div class="product-content">
+    <h2><%= link_to product.name, product_path(product), class: "product-title-link" %></h2>
+    <p class="price">$<%= number_with_precision(product.price, precision: 2) %></p>
+  </div>
+</div>

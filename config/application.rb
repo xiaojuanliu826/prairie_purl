@@ -1,6 +1,7 @@
 require_relative "boot"
 
 require "rails/all"
+require "sprockets/railtie"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -23,6 +24,6 @@ module PrairiePurl
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-    config.action_view.make_origin_tag_hidden_autocomplete_default = false
+    config.assets.enabled = true
   end
 end

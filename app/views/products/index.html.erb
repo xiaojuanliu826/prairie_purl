@@ -1,50 +1,44 @@
-<h1>Products</h1>
-<h2>Search Products</h2>
+<div class="products-header">
+  <h1 class="page-title">Products</h1>
 
-<%= form_with url: products_path, method: :get, local: true do %>
+  <%# 🔍 搜索表单区域 %>
+  <div class="search-section">
+    <%= form_with url: products_path, method: :get, local: true, class: "filter-form" do %>
+      <div class="filter-group">
+        <%= label_tag :keyword, "Keyword", class: "sr-only" %>
+        <%= text_field_tag :keyword, params[:keyword], placeholder: "Search products..." %>
+      </div>
 
-  <!-- 🔍 keyword 输入 -->
-  <div>
-    <%= label_tag :keyword, "Keyword" %>
-    <%= text_field_tag :keyword, params[:keyword] %>
-  </div>
+      <div class="filter-group">
+        <%= label_tag :category_id, "Category", class: "sr-only" %>
+        <%= select_tag :category_id,
+            options_from_collection_for_select(
+              @categories,
+              :id,
+              :name,
+              params[:category_id]
+            ),
+            include_blank: "All Categories"
+        %>
+      </div>
 
-  <!-- 📂 category dropdown -->
-  <div>
-    <%= label_tag :category_id, "Category" %>
-    <%= select_tag :category_id,
-        options_from_collection_for_select(
-          @categories,
-          :id,
-          :name,
-          params[:category_id]
-        ),
-        include_blank: "All Categories"
-    %>
-  </div>
-
-  <!-- 搜索按钮 -->
-  <div>
-    <%= submit_tag "Search" %>
-  </div>
-
-<% end %>
-
-
-<% @products.each do |product| %>
-  <div>
-
-    <!-- 如果有图片就显示 -->
-    <% if product.image.attached? %>
-      <%= image_tag product.image, width: 150 %>
+      <div class="filter-actions">
+        <%= submit_tag "Search", class: "btn-search" %>
+      </div>
     <% end %>
-    <!-- product name -->
-    <h3><%= link_to product.name, product_path(product) %></h3>
-
-    <!-- price -->
-    <p>$<%= product.price %></p>
   </div>
-<% end %>
+</div>
 
-<!-- pagination -->
-<%= paginate @products %>
+<hr class="section-divider">
+
+<%# 📦 产品展示区域 %>
+<div class="product-grid">
+  <%# 依然使用你原本的逻辑，但包装在类名中 %>
+  <% @products.each do |product| %>
+    <%= render partial: 'product_card', locals: { product: product } %>
+  <% end %>
+</div>
+
+<div class="pagination-footer">
+  <%= paginate @products %>
+</div>

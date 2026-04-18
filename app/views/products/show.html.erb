@@ -1,22 +1,31 @@
-<h1><%= @product.name %></h1>
+<div class="product-container">
+  <h1><%= @product.name %></h1>
 
-<!-- 显示大图 -->
-<% if @product.image.attached? %>
-  <%= image_tag @product.image, width: 300 %>
-<% end %>
+  <div class="product-content" style="display: flex; gap: 20px; align-items: flex-start;">
 
-<p><%= @product.description %></p>
+    <div class="product-image">
+      <% if @product.image.attached? %>
+        <%= image_tag @product.image.variant(:store_index), style: "border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" %>
+      <% end %>
+    </div>
 
-<p>Price: $<%= @product.price %></p>
+    <div class="product-details">
+      <p style="font-size: 1.2rem; color: #555;"><%= @product.description %></p>
+      <p style="font-size: 1.5rem; font-weight: bold; color: #2c3e50;">Price: $<%= number_with_precision(@product.price, precision: 2) %></p>
 
-<p>
-  Categories:
-  <% @product.categories.each do |category| %>
-    <%# use link_to to generate a link to the category page %>
-    <%= link_to category.name, category_path(category), class: "category-link" %>
-  <% end %>
-</p>
-<form action="<%= add_to_cart_path(product_id: @product.id) %>" method="post">
-  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-  <button type="submit" style="/* 这里可以加上你原来的 CSS */">Add to Cart</button>
-</form>
+      <div class="categories" style="margin-bottom: 15px;">
+        <strong>Categories:</strong>
+        <% @product.categories.each do |category| %>
+          <%= link_to category.name, category_path(category), class: "category-link", style: "margin-right: 10px; color: #3498db;" %>
+        <% end %>
+      </div>
+
+      <form action="<%= add_to_cart_path(product_id: @product.id) %>" method="post">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <button type="submit" style="padding: 10px 20px; background-color: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer;">
+          Add to Cart
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

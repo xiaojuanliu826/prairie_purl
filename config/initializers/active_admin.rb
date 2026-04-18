@@ -1,10 +1,17 @@
 ActiveAdmin.setup do |config|
   # == Site Title
   #
+  config.use_webpacker = false
   # Set the title that is displayed on the main layout
   # for each of the active admin pages.
   #
-  config.site_title = "Prairie Purl"
+  config.site_title = "Prairie Purl Admin"
+  config.authentication_method = :authenticate_admin_user!
+  config.current_user_method = :current_admin_user
+  config.logout_link_path = :destroy_admin_user_session_path
+  config.batch_actions = true
+  config.filter_attributes = [:encrypted_password, :password, :password_confirmation]
+  config.localize_format = :long
 
   # Set the link url for the title. For example, to take
   # users to your main site. Defaults to no link.
@@ -24,7 +31,7 @@ ActiveAdmin.setup do |config|
   # You can change this directory.
   #
   # eg:
-  #   config.load_paths = [File.join(Rails.root, 'app', 'ui')]
+  # config.load_paths = [File.join(Rails.root, 'app', 'admin')]
   #
   # Or, you can also load more directories.
   # Useful when setting namespaces with users that are not your main AdminUser entity.
@@ -219,6 +226,8 @@ ActiveAdmin.setup do |config|
   # config.create_another = true
 
   # == Register Stylesheets & Javascripts
+
+
   #
   # We recommend using the built in Active Admin layout and loading
   # up your own stylesheets / javascripts to customize the look
@@ -349,4 +358,8 @@ ActiveAdmin.setup do |config|
   # You can switch to using Webpacker here.
   #
   # config.use_webpacker = true
+
+  Rails.application.config.after_initialize do
+  ActiveAdmin.application.use_webpacker = false if ActiveAdmin.application.respond_to?(:use_webpacker=)
+ end
 end

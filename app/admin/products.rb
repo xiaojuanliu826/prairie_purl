@@ -1,4 +1,6 @@
 ActiveAdmin.register Product do
+  menu priority: 3, label: "Products"
+
   # 1. all allowed parameters
   permit_params :name, :description, :price, :on_sale, :image, category_ids: []
 

@@ -1,5 +1,6 @@
 ActiveAdmin.register Page do
 
+  menu parent: "Website Content", priority: 1, label: "Static Pages"
   # all allowed parameters
   permit_params :title, :content
 
